@@ -4,7 +4,7 @@ Table Pengguna {
   email varchar
   password varchar
   no_telp varchar
-  alamat text
+  alamat varchar
   role varchar
 }
 
@@ -15,7 +15,7 @@ Table Kendaraan {
   model varchar
   tahun int
   harga int
-  spesifikasi text
+  spesifikasi varchar
   kilometer int
   kondisi varchar
   status varchar
@@ -32,13 +32,13 @@ Table Produk {
   harga_beli int
   harga_jual int
   stok int
-  id_kategori int
+  id_kategori int [ref: > Kategori.id_kategori]
 }
 
 Table Supplier {
   id_supplier int [pk]
   nama_supplier varchar
-  alamat text
+  alamat varchar
   no_telp varchar
 }
 
@@ -48,14 +48,14 @@ Table Transaksi_Penjualan {
   jalur_pembelian varchar
   total_bayar int
   status_transaksi varchar
-  id_pelanggan int
-  id_admin int
+  id_pelanggan int [ref: > Pengguna.id_pengguna]
+  id_admin int [ref: > Pengguna.id_pengguna]
 }
 
 Table Detail_Penjualan {
   id_detail_penjualan int [pk]
-  id_transaksi int
-  id_produk int
+  id_transaksi int [ref: > Transaksi_Penjualan.id_transaksi]
+  id_produk int [ref: > Produk.id_produk]
   jumlah int
   harga_satuan int
   subtotal int
@@ -67,23 +67,23 @@ Table Transaksi_Kendaraan {
   harga_deal int
   jalur_pembelian varchar
   status_transaksi varchar
-  id_pelanggan int
-  id_admin int
-  id_kendaraan int
+  id_pelanggan int [ref: > Pengguna.id_pengguna]
+  id_admin int [ref: > Pengguna.id_pengguna]
+  id_kendaraan int [ref: > Kendaraan.id_kendaraan]
 }
 
 Table Pembelian_Barang {
   id_pembelian int [pk]
   tanggal date
   total_biaya int
-  id_supplier int
-  id_admin int
+  id_supplier int [ref: > Supplier.id_supplier]
+  id_admin int [ref: > Pengguna.id_pengguna]
 }
 
 Table Detail_Pembelian {
   id_detail_pembelian int [pk]
-  id_pembelian int
-  id_produk int
+  id_pembelian int [ref: > Pembelian_Barang.id_pembelian]
+  id_produk int [ref: > Produk.id_produk]
   jumlah int
   harga_beli int
   subtotal int
@@ -99,7 +99,7 @@ Table Layanan {
 Table Garasi {
   id_garasi int [pk]
   nama_garasi varchar
-  alamat text
+  alamat varchar
   no_telp varchar
 }
 
@@ -108,11 +108,11 @@ Table Booking_Layanan {
   tanggal_booking date
   jam time
   plat_nomor varchar
-  catatan text
+  catatan varchar
   status_booking varchar
-  id_pelanggan int
-  id_layanan int
-  id_garasi int
+  id_pelanggan int [ref: > Pengguna.id_pengguna]
+  id_layanan int [ref: > Layanan.id_layanan]
+  id_garasi int [ref: > Garasi.id_garasi]
 }
 
 Table Pengeluaran {
@@ -120,27 +120,5 @@ Table Pengeluaran {
   tanggal date
   keterangan varchar
   jumlah int
-  id_admin int
+  id_admin int [ref: > Pengguna.id_pengguna]
 }
-
-Ref: Produk.id_kategori > Kategori.id_kategori
-
-Ref: Transaksi_Penjualan.id_pelanggan > Pengguna.id_pengguna
-Ref: Transaksi_Penjualan.id_admin > Pengguna.id_pengguna
-Ref: Detail_Penjualan.id_transaksi > Transaksi_Penjualan.id_transaksi
-Ref: Detail_Penjualan.id_produk > Produk.id_produk
-
-Ref: Transaksi_Kendaraan.id_pelanggan > Pengguna.id_pengguna
-Ref: Transaksi_Kendaraan.id_admin > Pengguna.id_pengguna
-Ref: Transaksi_Kendaraan.id_kendaraan > Kendaraan.id_kendaraan
-
-Ref: Pembelian_Barang.id_supplier > Supplier.id_supplier
-Ref: Pembelian_Barang.id_admin > Pengguna.id_pengguna
-Ref: Detail_Pembelian.id_pembelian > Pembelian_Barang.id_pembelian
-Ref: Detail_Pembelian.id_produk > Produk.id_produk
-
-Ref: Booking_Layanan.id_pelanggan > Pengguna.id_pengguna
-Ref: Booking_Layanan.id_layanan > Layanan.id_layanan
-Ref: Booking_Layanan.id_garasi > Garasi.id_garasi
-
-Ref: Pengeluaran.id_admin > Pengguna.id_pengguna
