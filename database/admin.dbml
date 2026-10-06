@@ -1,165 +1,128 @@
- //  Table Admin {
-  //   "pelanggan" string 
-   //  "produk" string
-    // "transaksi_penjualan" int
-  //}
-
-   Enum role_pengguna {
-  pemilik
-  admin
-  pelanggan
-}
-
-Enum jenis_kendaraan {
-  baru
-  bekas
-}
-
-Enum status_kendaraan {
-  tersedia
-  dipesan
-  terjual
-}
-
-Enum jalur_pembelian {
-  online
-  dealer
-}
-
-Enum jenis_layanan {
-  service_berkala
-  diagnosis
-  perbaikan
-  detailing
-  kustomisasi
-}
-
 Table Pengguna {
-  id_pengguna int [pk, increment]
-  nama varchar(100) [not null]
-  email varchar(100) [not null, unique]
-  password varchar(255) [not null]
-  no_telp varchar(20)
+  id_pengguna int [pk]
+  nama varchar
+  email varchar
+  password varchar
+  no_telp varchar
   alamat text
-  role role_pengguna [not null]
+  role varchar
 }
 
 Table Kendaraan {
-  id_kendaraan int [pk, increment]
-  jenis jenis_kendaraan [not null]
-  merek varchar(50) [not null]
-  model varchar(50) [not null]
-  tahun int [not null]
-  harga decimal(15,2) [not null]
+  id_kendaraan int [pk]
+  jenis varchar
+  merek varchar
+  model varchar
+  tahun int
+  harga int
   spesifikasi text
-  kilometer int [note: 'kosong untuk mobil baru']
-  kondisi varchar(100) [note: 'kosong untuk mobil baru']
-  status status_kendaraan [not null, default: 'tersedia']
+  kilometer int
+  kondisi varchar
+  status varchar
 }
 
 Table Kategori {
-  id_kategori int [pk, increment]
-  nama_kategori varchar(50) [not null]
+  id_kategori int [pk]
+  nama_kategori varchar
 }
 
 Table Produk {
-  id_produk int [pk, increment]
-  nama_produk varchar(100) [not null]
-  harga_beli decimal(12,2) [not null]
-  harga_jual decimal(12,2) [not null]
-  stok int [not null, default: 0]
-  id_kategori int [not null]
+  id_produk int [pk]
+  nama_produk varchar
+  harga_beli int
+  harga_jual int
+  stok int
+  id_kategori int
 }
 
 Table Supplier {
-  id_supplier int [pk, increment]
-  nama_supplier varchar(100) [not null]
+  id_supplier int [pk]
+  nama_supplier varchar
   alamat text
-  no_telp varchar(20)
+  no_telp varchar
 }
 
 Table Transaksi_Penjualan {
-  id_transaksi int [pk, increment]
-  tanggal date [not null]
-  jalur_pembelian jalur_pembelian [not null]
-  total_bayar decimal(15,2) [not null]
-  status_transaksi varchar(30) [not null]
-  id_pelanggan int [not null]
+  id_transaksi int [pk]
+  tanggal date
+  jalur_pembelian varchar
+  total_bayar int
+  status_transaksi varchar
+  id_pelanggan int
   id_admin int
 }
 
 Table Detail_Penjualan {
-  id_detail_penjualan int [pk, increment]
-  id_transaksi int [not null]
-  id_produk int [not null]
-  jumlah int [not null]
-  harga_satuan decimal(12,2) [not null]
-  subtotal decimal(15,2) [not null]
+  id_detail_penjualan int [pk]
+  id_transaksi int
+  id_produk int
+  jumlah int
+  harga_satuan int
+  subtotal int
 }
 
 Table Transaksi_Kendaraan {
-  id_trx_kendaraan int [pk, increment]
-  tanggal date [not null]
-  harga_deal decimal(15,2) [not null]
-  jalur_pembelian jalur_pembelian [not null]
-  status_transaksi varchar(30) [not null]
-  id_pelanggan int [not null]
+  id_trx_kendaraan int [pk]
+  tanggal date
+  harga_deal int
+  jalur_pembelian varchar
+  status_transaksi varchar
+  id_pelanggan int
   id_admin int
-  id_kendaraan int [not null]
+  id_kendaraan int
 }
 
 Table Pembelian_Barang {
-  id_pembelian int [pk, increment]
-  tanggal date [not null]
-  total_biaya decimal(15,2) [not null]
-  id_supplier int [not null]
-  id_admin int [not null]
+  id_pembelian int [pk]
+  tanggal date
+  total_biaya int
+  id_supplier int
+  id_admin int
 }
 
 Table Detail_Pembelian {
-  id_detail_pembelian int [pk, increment]
-  id_pembelian int [not null]
-  id_produk int [not null]
-  jumlah int [not null]
-  harga_beli decimal(12,2) [not null]
-  subtotal decimal(15,2) [not null]
+  id_detail_pembelian int [pk]
+  id_pembelian int
+  id_produk int
+  jumlah int
+  harga_beli int
+  subtotal int
 }
 
 Table Layanan {
-  id_layanan int [pk, increment]
-  nama_layanan varchar(100) [not null]
-  jenis jenis_layanan [not null]
-  harga decimal(12,2) [not null]
+  id_layanan int [pk]
+  nama_layanan varchar
+  jenis varchar
+  harga int
 }
 
 Table Garasi {
-  id_garasi int [pk, increment]
-  nama_garasi varchar(100) [not null]
+  id_garasi int [pk]
+  nama_garasi varchar
   alamat text
-  no_telp varchar(20)
+  no_telp varchar
 }
 
 Table Booking_Layanan {
-  id_booking int [pk, increment]
-  tanggal_booking date [not null]
-  jam time [not null]
-  plat_nomor varchar(15)
+  id_booking int [pk]
+  tanggal_booking date
+  jam time
+  plat_nomor varchar
   catatan text
-  status_booking varchar(30) [not null]
-  id_pelanggan int [not null]
-  id_layanan int [not null]
-  id_garasi int [not null]
+  status_booking varchar
+  id_pelanggan int
+  id_layanan int
+  id_garasi int
 }
 
 Table Pengeluaran {
-  id_pengeluaran int [pk, increment]
-  tanggal date [not null]
-  keterangan varchar(200)
-  jumlah decimal(15,2) [not null]
-  id_admin int [not null]
+  id_pengeluaran int [pk]
+  tanggal date
+  keterangan varchar
+  jumlah int
+  id_admin int
 }
 
-// ===== Relasi (banyak-ke-satu) =====
 Ref: Produk.id_kategori > Kategori.id_kategori
 
 Ref: Transaksi_Penjualan.id_pelanggan > Pengguna.id_pengguna
