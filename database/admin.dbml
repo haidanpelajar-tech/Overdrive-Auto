@@ -42,15 +42,6 @@ Table Supplier {
   no_telp varchar
 }
 
-Table Transaksi_Penjualan {
-  id_transaksi int [pk]
-  tanggal date
-  jalur_pembelian varchar
-  total_bayar int
-  status_transaksi varchar
-  id_pelanggan int [ref: > Pengguna.id_pengguna]
-  id_admin int [ref: > Pengguna.id_pengguna]
-}
 
 Table Detail_Penjualan {
   id_detail_penjualan int [pk]
